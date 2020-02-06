@@ -35,8 +35,13 @@ vault operator init -recovery-pgp-keys="keybase:arielazem,keybase:richp,keybase:
 ```
 2.  Configured audit with syslog
 ```
-vault audit init syslog
+vault audit enable syslog
 ```
+3. Enable user pass auth method (more config reuiqred to write username/pw and attach policy)
+```
+vault auth enable userpass
+```
+
 
 
 ### Database Dynamic Secrets Configuration
@@ -197,7 +202,7 @@ The DR and performance clustes are stood up, but they are not fully configured t
 I would like to finish that part if there is more time/had I not encountered the blockers along the way.
 
 -
-Finished Setting up ssh secret engine to access company VM
+Finished Setting up ssh secret engine to access company VM. This appeared to be a low hanging fruit for parts unlimited 
 Following has been completed on vault cluster 
 ```
 vault secrets enable ssh
