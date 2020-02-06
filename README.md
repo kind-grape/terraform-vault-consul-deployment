@@ -179,3 +179,22 @@ EOF
 ```sh
 vault agent -config=agent-config.hcl -log-level=debug
 ```
+
+### Tasks that I would have like to complete if time allows 
+-
+The DR and performance clustes are stood up, but they are not fully configured to act as primary cluster or performance replica.
+I would like to finish that part if there is more time/had I not encountered the blockers along the way.
+
+-
+Finished Setting up ssh secret engine to access company VM
+Following has been completed on vault cluster 
+```
+vault secrets enable ssh
+vault write ssh/roles/otp_key_role key_type=otp \
+    default_user=ubuntu \
+    cidr_list=0.0.0.0/0
+```
+However I would like to finish configuring and test the ssh agent based on this doc to set up vault ssh helper on the target hosts 
+https://learn.hashicorp.com/vault/secrets-management/sm-ssh-otp
+
+
