@@ -28,6 +28,17 @@ From an architectural viewpoint us-east-1 was discarded as the primary region an
 | ------ | ------ 
 | Flask App | http://18.228.155.206:8000/ |
 
+The following tasks are also complete as per requiredments of the primary cluster
+1. init with keybase and auto unseal - no one person was exposed with all keys
+```
+vault operator init -recovery-pgp-keys="keybase:arielazem,keybase:richp,keybase:dawasz,keybase:redacted_ahead,keybase:lxhxr"
+```
+2.  Configured audit with syslog
+```
+vault audit init syslog
+```
+
+
 ### Database Dynamic Secrets Configuration
 Database Dynamic secrets were enabled in order to work with the flask application following the steps below, for the MySQL/MariaDB database.
 
@@ -59,7 +70,7 @@ vault read database/creds/my-role
 Enable App Role on Vault Cluster
 ```sh
 vault auth enable approle
-vault policy write token_update token_update.hcl
+vault policy write token_update token_update.hcl (policy is needed for this app role where database/transit and s3 needed)
 vault write auth/approle/role/apps policies="token_update"
 vault read -format=json auth/approle/role/apps/role-id \
          | jq  -r '.data.role_id' > /opt/vault/config/roleID
@@ -196,5 +207,7 @@ vault write ssh/roles/otp_key_role key_type=otp \
 ```
 However I would like to finish configuring and test the ssh agent based on this doc to set up vault ssh helper on the target hosts 
 https://learn.hashicorp.com/vault/secrets-management/sm-ssh-otp
+
+Configure AD/user pass for vault
 
 
